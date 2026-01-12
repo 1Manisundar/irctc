@@ -13,34 +13,54 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #f5f5f7;
+            background: linear-gradient(135deg, #1c1c1e 0%, #000000 100%);
             min-height: 100vh;
             padding: 2rem 1rem;
-            color: #1d1d1f;
+            color: #ffffff;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 113, 227, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(48, 209, 88, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255, 59, 48, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
         }
 
         .container {
             max-width: 980px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            border-radius: 18px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+            background: rgba(28, 28, 30, 0.7);
+            backdrop-filter: saturate(180%) blur(40px);
+            -webkit-backdrop-filter: saturate(180%) blur(40px);
+            border-radius: 24px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                0 1px 0 rgba(255, 255, 255, 0.1) inset;
             overflow: hidden;
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 1;
         }
 
         .header {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            color: #1d1d1f;
+            background: linear-gradient(180deg, rgba(28, 28, 30, 0.8) 0%, rgba(28, 28, 30, 0.6) 100%);
+            backdrop-filter: saturate(180%) blur(40px);
+            -webkit-backdrop-filter: saturate(180%) blur(40px);
+            color: #ffffff;
             padding: 3rem 2rem 2rem;
             text-align: center;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .header h1 {
@@ -58,41 +78,50 @@
             display: flex;
             justify-content: center;
             padding: 1.5rem 2rem;
-            background: rgba(255, 255, 255, 0.5);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            background: rgba(28, 28, 30, 0.5);
+            backdrop-filter: saturate(180%) blur(40px);
+            -webkit-backdrop-filter: saturate(180%) blur(40px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .toggle-switch {
             display: flex;
-            background: rgba(142, 142, 147, 0.12);
-            border-radius: 12px;
-            padding: 4px;
-            gap: 4px;
+            background: rgba(99, 99, 102, 0.3);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 14px;
+            padding: 5px;
+            gap: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
         .toggle-btn {
             padding: 0.625rem 1.5rem;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 0.9375rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             background: transparent;
-            color: #86868b;
+            color: rgba(255, 255, 255, 0.6);
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
             letter-spacing: -0.01em;
         }
 
         .toggle-btn.active {
-            background: #1d1d1f;
-            color: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .toggle-btn:not(.active):hover {
-            color: #1d1d1f;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .content {
@@ -115,7 +144,7 @@
             display: block;
             font-weight: 500;
             margin-bottom: 0.5rem;
-            color: #1d1d1f;
+            color: rgba(255, 255, 255, 0.9);
             font-size: 0.875rem;
             letter-spacing: -0.01em;
         }
@@ -124,27 +153,40 @@
         .form-group select {
             width: 100%;
             padding: 0.8125rem 1rem;
-            border: 1px solid rgba(142, 142, 147, 0.2);
-            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
             font-size: 1rem;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(255, 255, 255, 0.8);
-            color: #1d1d1f;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(99, 99, 102, 0.3);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: #ffffff;
             font-family: inherit;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .form-group input:focus,
         .form-group select:focus {
             outline: none;
-            border-color: #0071e3;
-            background: rgba(255, 255, 255, 1);
-            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+            border-color: rgba(0, 122, 255, 0.6);
+            background: rgba(99, 99, 102, 0.4);
+            box-shadow: 
+                0 0 0 4px rgba(0, 122, 255, 0.2),
+                0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-group input[readonly] {
+            background: rgba(99, 99, 102, 0.2);
+            color: rgba(255, 255, 255, 0.7);
+            cursor: not-allowed;
         }
 
         .booking-mode .form-group input:focus,
         .booking-mode .form-group select:focus {
-            border-color: #0071e3;
-            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+            border-color: rgba(0, 122, 255, 0.6);
+            box-shadow: 
+                0 0 0 4px rgba(0, 122, 255, 0.2),
+                0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
         .checkbox-group {
@@ -165,7 +207,7 @@
             margin: 0;
             font-weight: 400;
             cursor: pointer;
-            color: #1d1d1f;
+            color: rgba(255, 255, 255, 0.9);
             font-size: 0.9375rem;
         }
 
@@ -205,13 +247,16 @@
         }
 
         .btn-secondary {
-            background: rgba(142, 142, 147, 0.12);
-            color: #1d1d1f;
-            border: 1px solid rgba(142, 142, 147, 0.2);
+            background: rgba(99, 99, 102, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .btn-secondary:hover {
-            background: rgba(142, 142, 147, 0.18);
+            background: rgba(99, 99, 102, 0.5);
+            transform: translateY(-1px);
         }
 
         .booking-mode .btn-primary {
@@ -225,17 +270,19 @@
         .result-card {
             margin-top: 2rem;
             padding: 2rem;
-            border-radius: 16px;
-            background: rgba(48, 209, 88, 0.1);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            border: 1px solid rgba(48, 209, 88, 0.2);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border-radius: 20px;
+            background: rgba(48, 209, 88, 0.15);
+            backdrop-filter: saturate(180%) blur(40px);
+            -webkit-backdrop-filter: saturate(180%) blur(40px);
+            border: 1px solid rgba(48, 209, 88, 0.3);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                0 1px 0 rgba(255, 255, 255, 0.1) inset;
         }
 
         .result-card.closed {
-            background: rgba(255, 59, 48, 0.1);
-            border-color: rgba(255, 59, 48, 0.2);
+            background: rgba(255, 59, 48, 0.15);
+            border-color: rgba(255, 59, 48, 0.3);
         }
 
         .result-header {
@@ -245,14 +292,14 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            color: #1d1d1f;
+            color: #ffffff;
             letter-spacing: -0.02em;
         }
 
         .result-item {
             margin-bottom: 1rem;
             padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(142, 142, 147, 0.15);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .result-item:last-child {
@@ -263,7 +310,7 @@
 
         .result-label {
             font-weight: 500;
-            color: #86868b;
+            color: rgba(255, 255, 255, 0.6);
             margin-bottom: 0.375rem;
             font-size: 0.8125rem;
             text-transform: uppercase;
@@ -272,7 +319,7 @@
 
         .result-value {
             font-size: 1.0625rem;
-            color: #1d1d1f;
+            color: rgba(255, 255, 255, 0.95);
             font-weight: 400;
             line-height: 1.5;
         }
@@ -280,11 +327,11 @@
         .result-final {
             margin-top: 1.5rem;
             padding-top: 1.5rem;
-            border-top: 1px solid rgba(142, 142, 147, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .result-final .result-label {
-            color: #1d1d1f;
+            color: rgba(255, 255, 255, 0.9);
             font-size: 0.875rem;
             font-weight: 500;
             text-transform: none;
@@ -295,33 +342,90 @@
             font-weight: 600;
             color: #30d158;
             letter-spacing: -0.03em;
+            text-shadow: 0 2px 8px rgba(48, 209, 88, 0.3);
         }
 
         .result-card.closed .result-final .result-value {
-            color: #ff3b30;
+            color: #ff453a;
+            text-shadow: 0 2px 8px rgba(255, 59, 48, 0.3);
         }
 
         .disclaimer {
             margin-top: 1.5rem;
             padding: 1rem 1.25rem;
-            background: rgba(255, 204, 0, 0.1);
-            border: 1px solid rgba(255, 204, 0, 0.2);
-            border-radius: 12px;
+            background: rgba(255, 204, 0, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 204, 0, 0.3);
+            border-radius: 14px;
             font-size: 0.8125rem;
-            color: #1d1d1f;
+            color: rgba(255, 255, 255, 0.9);
             line-height: 1.5;
         }
 
         .footer {
             padding: 2rem;
             text-align: center;
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            border-top: 1px solid rgba(0, 0, 0, 0.05);
-            color: #86868b;
+            background: rgba(28, 28, 30, 0.5);
+            backdrop-filter: saturate(180%) blur(40px);
+            -webkit-backdrop-filter: saturate(180%) blur(40px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
             font-size: 0.8125rem;
             line-height: 1.5;
+        }
+
+        /* Snackbar/Popup Styles */
+        .snackbar-container {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .snackbar {
+            background: rgba(28, 28, 30, 0.95);
+            backdrop-filter: saturate(180%) blur(40px);
+            -webkit-backdrop-filter: saturate(180%) blur(40px);
+            color: #ffffff;
+            padding: 1rem 1.5rem;
+            border-radius: 14px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                0 1px 0 rgba(255, 255, 255, 0.1) inset;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            max-width: 90vw;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: auto;
+        }
+
+        .snackbar.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .snackbar.error {
+            background: rgba(255, 59, 48, 0.2);
+            border-color: rgba(255, 59, 48, 0.4);
+            color: #ff453a;
+        }
+
+        .snackbar.success {
+            background: rgba(48, 209, 88, 0.2);
+            border-color: rgba(48, 209, 88, 0.4);
+            color: #30d158;
         }
 
         /* Tablet and below */
@@ -503,6 +607,8 @@
     </style>
 </head>
 <body>
+    <div class="snackbar-container" id="snackbarContainer"></div>
+
     <div class="container">
         <div class="header">
             <h1>
@@ -577,10 +683,10 @@
                     <div class="form-group">
                         <label>Base Ticket Fare for % Calculation (₹)</label>
                         <div class="checkbox-group">
-                            <input type="checkbox" id="useTotalForPercentage" checked onchange="toggleBaseFareInput()">
+                            <input type="checkbox" id="useTotalForPercentage" onchange="toggleBaseFareInput()">
                             <label for="useTotalForPercentage" style="margin:0;">Use total amount paid for percentage calculation (if you don't know exact breakup)</label>
                         </div>
-                        <input type="number" id="baseFare" step="0.01" style="margin-top: 0.5rem; display: none;">
+                        <input type="number" id="baseFare" step="0.01" style="margin-top: 0.5rem;">
                     </div>
 
                     <div class="form-group">
@@ -590,7 +696,15 @@
 
                     <div class="form-group">
                         <label>Cancellation Date & Time *</label>
-                        <input type="datetime-local" id="cancellationDateTime" required>
+                        <div style="display: flex; gap: 0.5rem; align-items: stretch;">
+                            <input type="datetime-local" id="cancellationDateTime" required style="flex: 1;">
+                            <button type="button" class="btn btn-secondary" onclick="updateCancellationTime()" style="padding: 0.8125rem 1rem; white-space: nowrap;">
+                                Set Now
+                            </button>
+                        </div>
+                        <div style="margin-top: 0.5rem; font-size: 0.8125rem; color: rgba(255, 255, 255, 0.6);">
+                            Click "Set Now" to use current time, or enter manually
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -684,9 +798,26 @@
         // AC classes that are eligible for GST
         const AC_CLASSES = ['1A', '2A', 'CC', '3A', '3E', 'EC', 'FC'];
 
-        // Initialize current date time on page load
-        window.addEventListener('DOMContentLoaded', function() {
-            // Get current time and format for datetime-local input
+        // Snackbar function to replace alerts
+        function showSnackbar(message, type = 'info') {
+            const container = document.getElementById('snackbarContainer');
+            const snackbar = document.createElement('div');
+            snackbar.className = `snackbar ${type}`;
+            snackbar.textContent = message;
+            container.appendChild(snackbar);
+
+            // Trigger animation
+            setTimeout(() => snackbar.classList.add('show'), 10);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                snackbar.classList.remove('show');
+                setTimeout(() => container.removeChild(snackbar), 400);
+            }, 3000);
+        }
+
+        // Update cancellation time function
+        function updateCancellationTime() {
             const now = new Date();
             const year = now.getFullYear();
             const month = String(now.getMonth() + 1).padStart(2, '0');
@@ -694,7 +825,33 @@
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const dateTimeLocal = `${year}-${month}-${day}T${hours}:${minutes}`;
-            document.getElementById('currentDateTime').value = dateTimeLocal;
+            const cancellationInput = document.getElementById('cancellationDateTime');
+            if (cancellationInput) {
+                cancellationInput.value = dateTimeLocal;
+            }
+        }
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            // Initialize cancellation time with current time (user can change it manually)
+            updateCancellationTime();
+
+            // Initialize current date time for booking mode
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const dateTimeLocal = `${year}-${month}-${day}T${hours}:${minutes}`;
+            const currentDateTimeInput = document.getElementById('currentDateTime');
+            if (currentDateTimeInput) {
+                currentDateTimeInput.value = dateTimeLocal;
+            }
+
+            // Initialize base fare field - auto-calculate from total, convenience fee, and insurance
+            // Base fare field is visible by default (checkbox unchecked)
+            calculateBaseFare();
         });
 
         function switchMode(mode) {
@@ -734,14 +891,6 @@
             document.getElementById('baseFare').value = baseFare.toFixed(2);
         }
 
-        // Auto-calculate base fare when related fields change
-        ['totalAmount', 'convenienceFee', 'insurancePremium'].forEach(id => {
-            document.getElementById(id).addEventListener('input', function() {
-                if (!document.getElementById('useTotalForPercentage').checked) {
-                    calculateBaseFare();
-                }
-            });
-        });
 
         function toggleGSTInput() {
             const checkbox = document.getElementById('applyGST');
@@ -797,23 +946,63 @@
 
             // Validation
             if (!totalAmount || !departureDateTime || !cancellationDateTime) {
-                alert('Please fill all required fields');
+                showSnackbar('Please fill all required fields', 'error');
                 return;
             }
 
             // Calculate base fare
+            // If checkbox is checked, use total amount (for estimation)
+            // If unchecked, use the entered base fare input value
+            // Base fare is the actual ticket fare, excluding convenience fee and insurance
             let baseFare;
             if (useTotalForPercentage) {
+                // Use total amount when checkbox is checked (simplified calculation)
                 baseFare = totalAmount;
             } else {
-                baseFare = baseFareInput || (totalAmount - convenienceFee - insurancePremium);
+                // Use the manually entered base fare, or calculate it if not entered
+                if (baseFareInput > 0) {
+                    baseFare = baseFareInput;
+                } else {
+                    // Auto-calculate: Total - Convenience - Insurance
+                    baseFare = totalAmount - convenienceFee - insurancePremium;
+                }
             }
 
             // Parse dates (treat as local time)
-            const departure = new Date(departureDateTime);
-            const cancellation = new Date(cancellationDateTime);
-            const timeDiff = departure - cancellation; // milliseconds
+            // datetime-local format: YYYY-MM-DDTHH:mm (already in local timezone)
+            // Ensure proper parsing by explicitly handling the format
+            let departure, cancellation;
+            
+            // Parse departure date
+            if (departureDateTime.includes('T')) {
+                departure = new Date(departureDateTime);
+            } else {
+                departure = new Date(departureDateTime + 'T00:00:00');
+            }
+            
+            // Parse cancellation date
+            if (cancellationDateTime.includes('T')) {
+                cancellation = new Date(cancellationDateTime);
+            } else {
+                cancellation = new Date(cancellationDateTime + 'T00:00:00');
+            }
+            
+            // Validate dates
+            if (isNaN(departure.getTime()) || isNaN(cancellation.getTime())) {
+                showSnackbar('Invalid date format. Please check your dates.', 'error');
+                return;
+            }
+            
+            // Calculate time difference in milliseconds
+            // Positive timeDiff means cancellation is BEFORE departure (normal refund scenario)
+            // Negative timeDiff means cancellation is AFTER departure (no refund)
+            const timeDiff = departure.getTime() - cancellation.getTime();
             const hoursDiff = timeDiff / (1000 * 60 * 60);
+            
+            // Check if cancellation is after departure (warn user)
+            if (hoursDiff < 0) {
+                showSnackbar('Warning: Cancellation date is after departure date. Please check your inputs.', 'error');
+            }
 
             let cancellationCharge = 0;
             let slabDescription = '';
@@ -843,8 +1032,13 @@
                     breakdown.push(`50% of fare: ₹${percentageCharge.toFixed(2)}`);
                     breakdown.push(`Flat charge (${ticketClass}): ₹${flatCharge} × ${passengers} = ₹${(flatCharge * passengers).toFixed(2)}`);
                     breakdown.push(`Applied charge (max of above): ₹${cancellationCharge.toFixed(2)}`);
-                } else if (hoursDiff >= 12 && hoursDiff <= 48) {
-                    // Between 12h and 48h (includes exactly 12h)
+                } else if (hoursDiff > 48) {
+                    // More than 48 hours (flat charge only)
+                    cancellationCharge = applyRounding(flatCharge * passengers, roundingMode);
+                    slabDescription = 'More than 48 hours before departure (Flat charge)';
+                    breakdown.push(`Flat charge (${ticketClass}): ₹${flatCharge} × ${passengers} = ₹${cancellationCharge.toFixed(2)}`);
+                } else {
+                    // Between 12h and 48h (includes exactly 12h and exactly 48h)
                     const percentageCharge = baseFare * 0.25;
                     const maxCharge = Math.max(percentageCharge, flatCharge * passengers);
                     cancellationCharge = applyRounding(maxCharge, roundingMode);
@@ -852,11 +1046,6 @@
                     breakdown.push(`25% of fare: ₹${percentageCharge.toFixed(2)}`);
                     breakdown.push(`Flat charge (${ticketClass}): ₹${flatCharge} × ${passengers} = ₹${(flatCharge * passengers).toFixed(2)}`);
                     breakdown.push(`Applied charge (max of above): ₹${cancellationCharge.toFixed(2)}`);
-                } else {
-                    // More than 48 hours
-                    cancellationCharge = applyRounding(flatCharge * passengers, roundingMode);
-                    slabDescription = 'More than 48 hours before departure (Flat charge)';
-                    breakdown.push(`Flat charge (${ticketClass}): ₹${flatCharge} × ${passengers} = ₹${cancellationCharge.toFixed(2)}`);
                 }
 
                 // Add GST if applicable
@@ -893,7 +1082,9 @@
             }
 
             // Calculate final refund
-            let finalRefund = totalAmount - cancellationCharge;
+            // Refund = Total Amount - Cancellation Charge - Convenience Fee (non-refundable)
+            // Insurance premium is already included in the cancellation calculation
+            let finalRefund = totalAmount - cancellationCharge - convenienceFee;
             if (finalRefund < 0) finalRefund = 0;
 
             // Display result
@@ -943,7 +1134,7 @@
             const arpDays = parseInt(document.getElementById('arpDays').value) || 60;
 
             if (!departureDate || !currentDateTime) {
-                alert('Please fill all required fields');
+                showSnackbar('Please fill all required fields', 'error');
                 return;
             }
 
@@ -1024,15 +1215,19 @@
                 document.getElementById('totalAmount').value = '940.85';
                 document.getElementById('convenienceFee').value = '35.40';
                 document.getElementById('insurancePremium').value = '0.45';
-                document.getElementById('useTotalForPercentage').checked = true;
+                document.getElementById('useTotalForPercentage').checked = false;
                 toggleBaseFareInput();
+                // Set the base fare for this sample (actual ticket fare)
+                document.getElementById('baseFare').value = '905.00';
             } else if (sample === 'B') {
                 document.getElementById('ticketClass').value = '3E';
                 document.getElementById('totalAmount').value = '1776.30';
                 document.getElementById('convenienceFee').value = '35.40';
                 document.getElementById('insurancePremium').value = '0.90';
-                document.getElementById('useTotalForPercentage').checked = true;
+                document.getElementById('useTotalForPercentage').checked = false;
                 toggleBaseFareInput();
+                // Auto-calculate base fare from total
+                calculateBaseFare();
             }
         }
 
