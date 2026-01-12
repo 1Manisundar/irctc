@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRCTC Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f7;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            color: #1d1d1f;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-radius: 18px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .header {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            color: #1d1d1f;
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .header h1 {
+            font-size: 2.25rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin: 0;
+        }
+
+        .toggle-container {
+            display: flex;
+            justify-content: center;
+            padding: 1.5rem 2rem;
+            background: rgba(255, 255, 255, 0.5);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .toggle-switch {
+            display: flex;
+            background: rgba(142, 142, 147, 0.12);
+            border-radius: 12px;
+            padding: 4px;
+            gap: 4px;
+        }
+
+        .toggle-btn {
+            padding: 0.625rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: transparent;
+            color: #86868b;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            letter-spacing: -0.01em;
+        }
+
+        .toggle-btn.active {
+            background: #1d1d1f;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .toggle-btn:not(.active):hover {
+            color: #1d1d1f;
+        }
+
+        .content {
+            padding: 2.5rem;
+        }
+
+        .mode-section {
+            display: none;
+        }
+
+        .mode-section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #1d1d1f;
+            font-size: 0.875rem;
+            letter-spacing: -0.01em;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8125rem 1rem;
+            border: 1px solid rgba(142, 142, 147, 0.2);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.8);
+            color: #1d1d1f;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #0071e3;
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+        }
+
+        .booking-mode .form-group input:focus,
+        .booking-mode .form-group select:focus {
+            border-color: #0071e3;
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+            margin-top: 0.5rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #0071e3;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            font-weight: 400;
+            cursor: pointer;
+            color: #1d1d1f;
+            font-size: 0.9375rem;
+        }
+
+        .sample-buttons {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 0.625rem 1.25rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            letter-spacing: -0.01em;
+        }
+
+        .btn-primary {
+            background: #0071e3;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0077ed;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 113, 227, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: rgba(142, 142, 147, 0.12);
+            color: #1d1d1f;
+            border: 1px solid rgba(142, 142, 147, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(142, 142, 147, 0.18);
+        }
+
+        .booking-mode .btn-primary {
+            background: #0071e3;
+        }
+
+        .booking-mode .btn-primary:hover {
+            background: #0077ed;
+        }
+
+        .result-card {
+            margin-top: 2rem;
+            padding: 2rem;
+            border-radius: 16px;
+            background: rgba(48, 209, 88, 0.1);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border: 1px solid rgba(48, 209, 88, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .result-card.closed {
+            background: rgba(255, 59, 48, 0.1);
+            border-color: rgba(255, 59, 48, 0.2);
+        }
+
+        .result-header {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #1d1d1f;
+            letter-spacing: -0.02em;
+        }
+
+        .result-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(142, 142, 147, 0.15);
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .result-label {
+            font-weight: 500;
+            color: #86868b;
+            margin-bottom: 0.375rem;
+            font-size: 0.8125rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .result-value {
+            font-size: 1.0625rem;
+            color: #1d1d1f;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .result-final {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(142, 142, 147, 0.2);
+        }
+
+        .result-final .result-label {
+            color: #1d1d1f;
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-transform: none;
+        }
+
+        .result-final .result-value {
+            font-size: 2.25rem;
+            font-weight: 600;
+            color: #30d158;
+            letter-spacing: -0.03em;
+        }
+
+        .result-card.closed .result-final .result-value {
+            color: #ff3b30;
+        }
+
+        .disclaimer {
+            margin-top: 1.5rem;
+            padding: 1rem 1.25rem;
+            background: rgba(255, 204, 0, 0.1);
+            border: 1px solid rgba(255, 204, 0, 0.2);
+            border-radius: 12px;
+            font-size: 0.8125rem;
+            color: #1d1d1f;
+            line-height: 1.5;
+        }
+
+        .footer {
+            padding: 2rem;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            color: #86868b;
+            font-size: 0.8125rem;
+            line-height: 1.5;
+        }
+
+        /* Tablet and below */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .container {
+                margin: 0;
+                border-radius: 16px;
+            }
+
+            .header {
+                padding: 2.5rem 1.5rem 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .content {
+                padding: 2rem 1.5rem;
+            }
+
+            .toggle-container {
+                padding: 1.5rem;
+            }
+
+            .result-card {
+                padding: 1.5rem;
+            }
+
+            .result-header {
+                font-size: 1.375rem;
+            }
+        }
+
+        /* Mobile phones */
+        @media (max-width: 640px) {
+            body {
+                padding: 0;
+            }
+
+            .container {
+                margin: 0;
+                border-radius: 0;
+            }
+
+            .header {
+                padding: 2rem 1.25rem 1.25rem;
+            }
+
+            .header h1 {
+                font-size: 1.75rem;
+                flex-wrap: wrap;
+            }
+
+            .toggle-container {
+                padding: 1.25rem;
+            }
+
+            .toggle-switch {
+                width: 100%;
+            }
+
+            .toggle-btn {
+                padding: 0.625rem 1rem;
+                font-size: 0.875rem;
+                flex: 1;
+                min-height: 44px; /* Touch target size */
+            }
+
+            .content {
+                padding: 1.5rem 1.25rem;
+            }
+
+            .form-group {
+                margin-bottom: 1.25rem;
+            }
+
+            .form-group input,
+            .form-group select {
+                padding: 0.875rem;
+                font-size: 1rem; /* Prevent zoom on iOS */
+                min-height: 44px; /* Touch target size */
+            }
+
+            .sample-buttons {
+                flex-direction: column;
+                gap: 0.625rem;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 0.75rem 1.25rem;
+                min-height: 44px; /* Touch target size */
+                font-size: 0.9375rem;
+            }
+
+            .result-card {
+                padding: 1.25rem;
+                margin-top: 1.5rem;
+                border-radius: 14px;
+            }
+
+            .result-header {
+                font-size: 1.25rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .result-value {
+                font-size: 1rem;
+            }
+
+            .result-final .result-value {
+                font-size: 1.875rem;
+            }
+
+            .footer {
+                padding: 1.5rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Small mobile phones */
+        @media (max-width: 375px) {
+            .header {
+                padding: 1.75rem 1rem 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .toggle-btn {
+                padding: 0.5rem 0.875rem;
+                font-size: 0.875rem;
+            }
+
+            .content {
+                padding: 1.25rem 1rem;
+            }
+
+            .form-group label {
+                font-size: 0.8125rem;
+            }
+
+            .result-header {
+                font-size: 1.125rem;
+            }
+
+            .result-final .result-value {
+                font-size: 1.625rem;
+            }
+        }
+
+        /* Large screens */
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 980px;
+            }
+
+            .content {
+                padding: 3rem;
+            }
+
+            .header {
+                padding: 4rem 3rem 3rem;
+            }
+        }
+
+        .icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>
+                🚂 IRCTC Calculator
+            </h1>
+        </div>
+
+        <div class="toggle-container">
+            <div class="toggle-switch">
+                <button class="toggle-btn active" id="toggleRefund" onclick="switchMode('refund')">
+                    💰 Refund Calculator
+                </button>
+                <button class="toggle-btn" id="toggleBooking" onclick="switchMode('booking')">
+                    📅 Booking Window Calculator
+                </button>
+            </div>
+        </div>
+
+        <div class="content" id="contentArea">
+            <!-- Refund Calculator Mode -->
+            <div class="mode-section active" id="refundMode">
+                <div class="sample-buttons">
+                    <button class="btn btn-secondary" onclick="loadSampleRefund('A')">Load Sample A</button>
+                    <button class="btn btn-secondary" onclick="loadSampleRefund('B')">Load Sample B</button>
+                </div>
+
+                <form id="refundForm">
+                    <div class="form-group">
+                        <label>Ticket Status *</label>
+                        <select id="ticketStatus" required>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="rac">RAC</option>
+                            <option value="waitlist">Waitlist</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Class *</label>
+                        <select id="ticketClass" required>
+                            <option value="2S">2S</option>
+                            <option value="SL">SL</option>
+                            <option value="CC">CC</option>
+                            <option value="3E">3E</option>
+                            <option value="3A">3A</option>
+                            <option value="2A">2A</option>
+                            <option value="1A">1A</option>
+                            <option value="EC">EC</option>
+                            <option value="FC">FC</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Number of Passengers *</label>
+                        <input type="number" id="passengers" min="1" value="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Total Amount Paid (₹) *</label>
+                        <input type="number" id="totalAmount" step="0.01" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Convenience Fee (₹) - Optional</label>
+                        <input type="number" id="convenienceFee" step="0.01" value="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Travel Insurance Premium (₹) - Optional</label>
+                        <input type="number" id="insurancePremium" step="0.01" value="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Base Ticket Fare for % Calculation (₹)</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="useTotalForPercentage" checked onchange="toggleBaseFareInput()">
+                            <label for="useTotalForPercentage" style="margin:0;">Use total amount paid for percentage calculation (if you don't know exact breakup)</label>
+                        </div>
+                        <input type="number" id="baseFare" step="0.01" style="margin-top: 0.5rem; display: none;">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Departure Date & Time *</label>
+                        <input type="datetime-local" id="departureDateTime" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cancellation Date & Time *</label>
+                        <input type="datetime-local" id="cancellationDateTime" required>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="applyGST" onchange="toggleGSTInput()">
+                            <label for="applyGST" style="margin:0;">Apply GST on cancellation charge (for AC classes only)</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="gstRateGroup" style="display: none;">
+                        <label>GST Rate (%)</label>
+                        <input type="number" id="gstRate" step="0.01" value="5" min="0" max="100">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Rounding Mode</label>
+                        <select id="roundingMode">
+                            <option value="up">Round Up</option>
+                            <option value="nearest" selected>Round Nearest</option>
+                            <option value="down">Round Down</option>
+                        </select>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" onclick="calculateRefund()" style="width: 100%; margin-top: 1rem;">
+                        Calculate Refund
+                    </button>
+                </form>
+
+                <div id="refundResult"></div>
+            </div>
+
+            <!-- Booking Window Calculator Mode -->
+            <div class="mode-section" id="bookingMode">
+                <div class="sample-buttons">
+                    <button class="btn btn-secondary" onclick="loadSampleBooking()">Load Sample (Mar 7, 8:30 PM)</button>
+                </div>
+
+                <form id="bookingForm">
+                    <div class="form-group">
+                        <label>Departure Date *</label>
+                        <input type="date" id="bookingDepartureDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Departure Time (for reference only)</label>
+                        <input type="time" id="bookingDepartureTime">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Current Date & Time (IST) *</label>
+                        <input type="datetime-local" id="currentDateTime" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>ARP Days *</label>
+                        <select id="arpDays" required>
+                            <option value="60" selected>60 days (Standard)</option>
+                            <option value="120">120 days (Special trains)</option>
+                            <option value="30">30 days (Custom)</option>
+                        </select>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" onclick="calculateBookingWindow()" style="width: 100%; margin-top: 1rem;">
+                        Calculate Booking Window
+                    </button>
+                </form>
+
+                <div id="bookingResult"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Disclaimer:</strong> Unofficial calculator for estimation purposes only. Always verify with official IRCTC website.</p>
+        </div>
+    </div>
+
+    <script>
+        // Flat charges per passenger by class
+        const FLAT_CHARGES = {
+            '1A': 240,
+            'EC': 240,
+            '2A': 200,
+            'FC': 200,
+            'CC': 180,
+            '3A': 180,
+            '3E': 180,
+            'SL': 120,
+            '2S': 60
+        };
+
+        // AC classes that are eligible for GST
+        const AC_CLASSES = ['1A', '2A', 'CC', '3A', '3E', 'EC', 'FC'];
+
+        // Initialize current date time on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            // Get current time and format for datetime-local input
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const dateTimeLocal = `${year}-${month}-${day}T${hours}:${minutes}`;
+            document.getElementById('currentDateTime').value = dateTimeLocal;
+        });
+
+        function switchMode(mode) {
+            // Update toggle buttons
+            document.getElementById('toggleRefund').classList.toggle('active', mode === 'refund');
+            document.getElementById('toggleBooking').classList.toggle('active', mode === 'booking');
+            
+            // Update mode sections
+            document.getElementById('refundMode').classList.toggle('active', mode === 'refund');
+            document.getElementById('bookingMode').classList.toggle('active', mode === 'booking');
+            
+            // Update content area class for styling
+            const contentArea = document.getElementById('contentArea');
+            contentArea.classList.toggle('booking-mode', mode === 'booking');
+            
+            // Clear results
+            document.getElementById('refundResult').innerHTML = '';
+            document.getElementById('bookingResult').innerHTML = '';
+        }
+
+        function toggleBaseFareInput() {
+            const checkbox = document.getElementById('useTotalForPercentage');
+            const baseFareInput = document.getElementById('baseFare');
+            baseFareInput.style.display = checkbox.checked ? 'none' : 'block';
+            
+            if (!checkbox.checked) {
+                calculateBaseFare();
+            }
+        }
+
+        function calculateBaseFare() {
+            const totalAmount = parseFloat(document.getElementById('totalAmount').value) || 0;
+            const convenienceFee = parseFloat(document.getElementById('convenienceFee').value) || 0;
+            const insurancePremium = parseFloat(document.getElementById('insurancePremium').value) || 0;
+            
+            const baseFare = totalAmount - convenienceFee - insurancePremium;
+            document.getElementById('baseFare').value = baseFare.toFixed(2);
+        }
+
+        // Auto-calculate base fare when related fields change
+        ['totalAmount', 'convenienceFee', 'insurancePremium'].forEach(id => {
+            document.getElementById(id).addEventListener('input', function() {
+                if (!document.getElementById('useTotalForPercentage').checked) {
+                    calculateBaseFare();
+                }
+            });
+        });
+
+        function toggleGSTInput() {
+            const checkbox = document.getElementById('applyGST');
+            const gstRateGroup = document.getElementById('gstRateGroup');
+            gstRateGroup.style.display = checkbox.checked ? 'block' : 'none';
+        }
+
+        function applyRounding(value, mode) {
+            switch(mode) {
+                case 'up':
+                    return Math.ceil(value);
+                case 'down':
+                    return Math.floor(value);
+                case 'nearest':
+                default:
+                    return Math.round(value);
+            }
+        }
+
+        function formatTimeDiff(milliseconds) {
+            const seconds = Math.floor(milliseconds / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+            
+            const d = days;
+            const h = hours % 24;
+            const m = minutes % 60;
+            
+            let parts = [];
+            if (d > 0) parts.push(`${d}d`);
+            if (h > 0) parts.push(`${h}h`);
+            if (m > 0) parts.push(`${m}m`);
+            
+            return parts.join(' ') || '0m';
+        }
+
+        function calculateRefund() {
+            // Get form values
+            const ticketStatus = document.getElementById('ticketStatus').value;
+            const ticketClass = document.getElementById('ticketClass').value;
+            const passengers = parseInt(document.getElementById('passengers').value) || 1;
+            const totalAmount = parseFloat(document.getElementById('totalAmount').value) || 0;
+            const convenienceFee = parseFloat(document.getElementById('convenienceFee').value) || 0;
+            const insurancePremium = parseFloat(document.getElementById('insurancePremium').value) || 0;
+            const useTotalForPercentage = document.getElementById('useTotalForPercentage').checked;
+            const baseFareInput = parseFloat(document.getElementById('baseFare').value) || 0;
+            const departureDateTime = document.getElementById('departureDateTime').value;
+            const cancellationDateTime = document.getElementById('cancellationDateTime').value;
+            const applyGST = document.getElementById('applyGST').checked;
+            const gstRate = parseFloat(document.getElementById('gstRate').value) || 5;
+            const roundingMode = document.getElementById('roundingMode').value;
+
+            // Validation
+            if (!totalAmount || !departureDateTime || !cancellationDateTime) {
+                alert('Please fill all required fields');
+                return;
+            }
+
+            // Calculate base fare
+            let baseFare;
+            if (useTotalForPercentage) {
+                baseFare = totalAmount;
+            } else {
+                baseFare = baseFareInput || (totalAmount - convenienceFee - insurancePremium);
+            }
+
+            // Parse dates (treat as local time)
+            const departure = new Date(departureDateTime);
+            const cancellation = new Date(cancellationDateTime);
+            const timeDiff = departure - cancellation; // milliseconds
+            const hoursDiff = timeDiff / (1000 * 60 * 60);
+
+            let cancellationCharge = 0;
+            let slabDescription = '';
+            let breakdown = [];
+
+            // Check if ticket is CONFIRMED
+            if (ticketStatus === 'confirmed') {
+                const flatCharge = FLAT_CHARGES[ticketClass] || 0;
+                const isACClass = AC_CLASSES.includes(ticketClass);
+                
+                if (hoursDiff < 0) {
+                    // After departure - no refund
+                    cancellationCharge = totalAmount;
+                    slabDescription = 'After departure (No refund unless TDR filed)';
+                    breakdown.push('No refund available');
+                } else if (hoursDiff < 4) {
+                    // Within 4 hours (but not exactly 4h) - no refund
+                    cancellationCharge = totalAmount;
+                    slabDescription = 'Within 4 hours of departure (No refund unless TDR filed)';
+                    breakdown.push('No refund available');
+                } else if (hoursDiff >= 4 && hoursDiff < 12) {
+                    // Between 4h and 12h (includes exactly 4h)
+                    const percentageCharge = baseFare * 0.50;
+                    const maxCharge = Math.max(percentageCharge, flatCharge * passengers);
+                    cancellationCharge = applyRounding(maxCharge, roundingMode);
+                    slabDescription = 'Between 4h and 12h before departure (50% deduction)';
+                    breakdown.push(`50% of fare: ₹${percentageCharge.toFixed(2)}`);
+                    breakdown.push(`Flat charge (${ticketClass}): ₹${flatCharge} × ${passengers} = ₹${(flatCharge * passengers).toFixed(2)}`);
+                    breakdown.push(`Applied charge (max of above): ₹${cancellationCharge.toFixed(2)}`);
+                } else if (hoursDiff >= 12 && hoursDiff <= 48) {
+                    // Between 12h and 48h (includes exactly 12h)
+                    const percentageCharge = baseFare * 0.25;
+                    const maxCharge = Math.max(percentageCharge, flatCharge * passengers);
+                    cancellationCharge = applyRounding(maxCharge, roundingMode);
+                    slabDescription = 'Between 12h and 48h before departure (25% deduction)';
+                    breakdown.push(`25% of fare: ₹${percentageCharge.toFixed(2)}`);
+                    breakdown.push(`Flat charge (${ticketClass}): ₹${flatCharge} × ${passengers} = ₹${(flatCharge * passengers).toFixed(2)}`);
+                    breakdown.push(`Applied charge (max of above): ₹${cancellationCharge.toFixed(2)}`);
+                } else {
+                    // More than 48 hours
+                    cancellationCharge = applyRounding(flatCharge * passengers, roundingMode);
+                    slabDescription = 'More than 48 hours before departure (Flat charge)';
+                    breakdown.push(`Flat charge (${ticketClass}): ₹${flatCharge} × ${passengers} = ₹${cancellationCharge.toFixed(2)}`);
+                }
+
+                // Add GST if applicable
+                if (applyGST && isACClass && cancellationCharge < totalAmount) {
+                    const gstAmount = applyRounding((cancellationCharge * gstRate) / 100, roundingMode);
+                    cancellationCharge += gstAmount;
+                    breakdown.push(`GST (${gstRate}%): ₹${gstAmount.toFixed(2)}`);
+                }
+
+            } else if (ticketStatus === 'rac' || ticketStatus === 'waitlist') {
+                // RAC/Waitlist tickets
+                const minutesDiff = timeDiff / (1000 * 60);
+                const isACClass = AC_CLASSES.includes(ticketClass);
+                
+                if (minutesDiff < 30) {
+                    // Within 30 minutes or after - no refund
+                    cancellationCharge = totalAmount;
+                    slabDescription = 'Within 30 minutes of departure or after (No refund)';
+                    breakdown.push('No refund available');
+                } else {
+                    // More than 30 minutes before departure
+                    const clerkage = 60 * passengers;
+                    cancellationCharge = clerkage;
+                    slabDescription = 'More than 30 minutes before departure (Clerkage)';
+                    breakdown.push(`Clerkage: ₹60 × ${passengers} = ₹${clerkage.toFixed(2)}`);
+                    
+                    // Add GST if applicable
+                    if (applyGST && isACClass) {
+                        const gstAmount = applyRounding((cancellationCharge * gstRate) / 100, roundingMode);
+                        cancellationCharge += gstAmount;
+                        breakdown.push(`GST (${gstRate}%): ₹${gstAmount.toFixed(2)}`);
+                    }
+                }
+            }
+
+            // Calculate final refund
+            let finalRefund = totalAmount - cancellationCharge;
+            if (finalRefund < 0) finalRefund = 0;
+
+            // Display result
+            const resultHTML = `
+                <div class="result-card">
+                    <div class="result-header">💰 Refund Calculation Result</div>
+                    <div class="result-item">
+                        <div class="result-label">Time Difference to Departure</div>
+                        <div class="result-value">${formatTimeDiff(Math.abs(timeDiff))}</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Hours Difference</div>
+                        <div class="result-value">${Math.abs(hoursDiff).toFixed(2)} hours</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Slab Matched</div>
+                        <div class="result-value">${slabDescription}</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Breakdown</div>
+                        <div class="result-value">
+                            ${breakdown.map(item => `<div>${item}</div>`).join('')}
+                        </div>
+                    </div>
+                    ${convenienceFee > 0 ? `
+                    <div class="result-item">
+                        <div class="result-label">Convenience Fee (Non-refundable)</div>
+                        <div class="result-value">₹${convenienceFee.toFixed(2)}</div>
+                    </div>
+                    ` : ''}
+                    <div class="result-final">
+                        <div class="result-label">Estimated Refund</div>
+                        <div class="result-value">₹${finalRefund.toFixed(2)}</div>
+                    </div>
+                    <div class="disclaimer">
+                        ⚠️ This is an estimate. Actual refund may vary based on IRCTC's fare components and rounding.
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('refundResult').innerHTML = resultHTML;
+        }
+
+        function calculateBookingWindow() {
+            const departureDate = document.getElementById('bookingDepartureDate').value;
+            const currentDateTime = document.getElementById('currentDateTime').value;
+            const arpDays = parseInt(document.getElementById('arpDays').value) || 60;
+
+            if (!departureDate || !currentDateTime) {
+                alert('Please fill all required fields');
+                return;
+            }
+
+            // Step 1: Parse departure date (ignore time for ARP calculation)
+            // datetime-local inputs are in user's local timezone, but we treat as IST
+            const departureDateObj = new Date(departureDate + 'T00:00:00');
+
+            // Step 2: Calculate opening date = departure - ARP days
+            const openingDate = new Date(departureDateObj);
+            openingDate.setDate(openingDate.getDate() - arpDays);
+
+            // Step 3: Set opening time to 08:00 AM
+            openingDate.setHours(8, 0, 0, 0);
+
+            // Step 4: Parse current date time
+            const currentDateTimeObj = new Date(currentDateTime);
+
+            // Step 5: Compare with current time
+            const isOpen = currentDateTimeObj >= openingDate;
+
+            // Step 6: Calculate time remaining if not open
+            let timeRemaining = null;
+            if (!isOpen) {
+                timeRemaining = openingDate - currentDateTimeObj;
+            }
+
+            // Format opening date & time for display
+            const openingDateStr = openingDate.toLocaleDateString('en-IN', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+            const openingTimeStr = openingDate.toLocaleTimeString('en-IN', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
+
+            // Display result
+            const statusIcon = isOpen ? '✅' : '❌';
+            const statusText = isOpen ? 'Booking is OPEN' : 'Booking is NOT OPEN';
+            const cardClass = isOpen ? '' : 'closed';
+
+            let timeRemainingHTML = '';
+            if (!isOpen && timeRemaining) {
+                timeRemainingHTML = `
+                    <div class="result-item">
+                        <div class="result-label">Time Remaining</div>
+                        <div class="result-value">${formatTimeDiff(timeRemaining)}</div>
+                    </div>
+                `;
+            }
+
+            const resultHTML = `
+                <div class="result-card ${cardClass}">
+                    <div class="result-header">
+                        ${statusIcon} ${statusText}
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Booking Opens</div>
+                        <div class="result-value">${openingDateStr}, ${openingTimeStr} IST</div>
+                    </div>
+                    ${timeRemainingHTML}
+                    <div class="result-item" style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(0,0,0,0.1);">
+                        <div class="result-value" style="font-size: 0.875rem; color: #4b5563;">
+                            IRCTC ARP is ${arpDays} days excluding journey date; booking opens at 08:00 AM IST on the opening date.
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('bookingResult').innerHTML = resultHTML;
+        }
+
+        function loadSampleRefund(sample) {
+            if (sample === 'A') {
+                document.getElementById('ticketClass').value = '3E';
+                document.getElementById('totalAmount').value = '940.85';
+                document.getElementById('convenienceFee').value = '35.40';
+                document.getElementById('insurancePremium').value = '0.45';
+                document.getElementById('useTotalForPercentage').checked = true;
+                toggleBaseFareInput();
+            } else if (sample === 'B') {
+                document.getElementById('ticketClass').value = '3E';
+                document.getElementById('totalAmount').value = '1776.30';
+                document.getElementById('convenienceFee').value = '35.40';
+                document.getElementById('insurancePremium').value = '0.90';
+                document.getElementById('useTotalForPercentage').checked = true;
+                toggleBaseFareInput();
+            }
+        }
+
+        function loadSampleBooking() {
+            // Set departure: March 7, 2026, 20:30
+            const departureDate = '2026-03-07';
+            const departureTime = '20:30';
+            document.getElementById('bookingDepartureDate').value = departureDate;
+            document.getElementById('bookingDepartureTime').value = departureTime;
+
+            // Set current: Jan 6, 2026, 08:00
+            document.getElementById('currentDateTime').value = '2026-01-06T08:00';
+        }
+    </script>
+</body>
+</html>
+
